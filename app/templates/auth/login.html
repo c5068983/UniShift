@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/login.css') }}">
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+  <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px; border-radius: 12px;">
+
+    <h3 class="text-center mb-4">Login</h3>
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      {{ form.hidden_tag() }}
+
+      <!-- EMAIL -->
+      <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Enter your email") }}
+
+        {% for error in form.email.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control", placeholder="Enter your password") }}
+
+        {% for error in form.password.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="d-grid mt-3">
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+
+    </form>
+
+    <!-- LINKS -->
+    <div class="text-center mt-3">
+
+      <p class="mb-1">
+        Don't have an account?
+        <a href="{{ url_for('auth.register') }}">Register</a>
+      </p>
+
+      <p class="mb-1">
+        <a href="{{ url_for('auth.login_otp') }}">Login with OTP</a>
+      </p>
+
+      <p>
+        <a href="{{ url_for('auth.forget_password') }}">Forgot Password?</a>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

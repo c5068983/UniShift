@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Shift Requests{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row g-4">
+
+        <!-- ================= LEFT: SHIFT INFO ================= -->
+        <div class="col-md-5">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">About the Shift</h4>
+                        
+                        {% if shift.status in ['Open', 'Accepted'] %}
+                            <a href="{{ url_for('shifts.cancel_shift', shift_id=shift.shiftId) }}"
+                            class="btn btn-danger btn-sm">
+                                Cancel Shift
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <p><strong>Title:</strong> {{ shift.title }}</p>
+                    <p><strong>Company:</strong> {{ shift.company_name }}</p>
+                    <p><strong>City:</strong> {{ shift.city }}</p>
+
+                    <p>
+                        <strong>Time:</strong><br>
+                        {{ shift.start_datetime }} <br>
+                        <span class="text-muted">↓</span><br>
+                        {{ shift.end_datetime }}
+                    </p>
+
+                    <p><strong>Hourly Rate:</strong> £{{ shift.hourly_rate }}</p>
+
+                    <!-- STATUS -->
+                    <p>
+                        <strong>Status:</strong><br>
+
+                        {% if shift.status == 'Open' %}
+                            <span class="badge bg-success fs-6 px-3 py-2">Open</span>
+                        {% elif shift.status == 'Accepted' %}
+                            <span class="badge bg-primary fs-6 px-3 py-2">Accepted</span>
+                        {% elif shift.status == 'Completed' %}
+                            <span class="badge bg-secondary fs-6 px-3 py-2">Completed</span>
+                        {% else %}
+                            <span class="badge bg-danger fs-6 px-3 py-2">Cancelled</span>
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= RIGHT: REQUESTS ================= -->
+        <div class="col-md-7">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4 class="mb-3">Shift Requests</h4>
+
+                    {% if requests %}
+
+                        {% for req in requests %}
+
+                            <div class="border rounded p-3 mb-3">
+
+                                <p class="mb-1">
+                                    <strong>User:</strong> {{ req.user_name }}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Status:</strong>
+                                    {% if req.status == 'Pending' %}
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    {% elif req.status == 'Accepted' %}
+                                        <span class="badge bg-success">Accepted</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Rejected</span>
+                                    {% endif %}
+                                </p>
+
+                                <p class="text-muted mb-2">
+                                    Requested: {{ req.created_at }}
+                                </p>
+
+                                <!-- ACTION BUTTONS -->
+                                {% if req.status == 'Pending' %}
+
+                                    <div class="d-flex gap-2">
+
+                                        <a href="{{ url_for('shifts.update_request_status',
+                                                            shift_id=shift.shiftId,
+                                                            request_id=req.requestId,
+                                                            new_status='Accepted') }}"
+                                           class="btn btn-success btn-sm">
+                                            Accept
+                                        </a>
+
+                                        <a href="{{ url_for('shifts.update_request_status',
+                                                            shift_id=shift.shiftId,
+                                                            request_id=req.requestId,
+                                                            new_status='Rejected') }}"
+                                           class="btn btn-danger btn-sm">
+                                            Reject
+                                        </a>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <p class="text-muted">No requests found.</p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

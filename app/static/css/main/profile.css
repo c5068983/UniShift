@@ -1,0 +1,27 @@
+.profile-card {
+    max-width: 520px;
+    border-radius: 16px;
+}
+
+.profile-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border: 3px solid #f1f1f1;
+}
+
+.profile-info {
+    padding: 10px 5px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.info-row span {
+    color: #343a40;
+}

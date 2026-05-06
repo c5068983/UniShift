@@ -1,0 +1,32 @@
+.about-hero {
+    background: linear-gradient(to right, #34d8d8, #dc2c2c);
+    color: white;
+    padding: 60px 20px;
+}
+
+.about-heading {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.about-description {
+    max-width: 800px;
+    margin: auto;
+    font-size: 1.2rem;
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Special section */
+.special-section {
+    background: #f8f9fa;
+    padding: 50px 20px;
+}

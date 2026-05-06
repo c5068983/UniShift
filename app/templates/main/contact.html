@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="contact-hero text-center py-5">
+
+    <h1 class="fw-bold">Contact UniShift</h1>
+
+    <p class="text-muted mt-2">
+        We’re here to help you with shifts, support, and anything related to your experience.
+    </p>
+
+</div>
+
+<div class="container mb-5">
+
+    <div class="row g-4 justify-content-center">
+
+        <!-- EMAIL CARD -->
+        <div class="col-md-5">
+            <div class="contact-card shadow-sm p-4 h-100">
+
+                <div class="icon">📩</div>
+                <h5>Email Support</h5>
+                <p class="text-muted">support@unishift.com</p>
+
+                <small class="text-muted">
+                    We usually reply within 24–48 hours.
+                </small>
+
+            </div>
+        </div>
+
+        <!-- TEAM CARD -->
+        <div class="col-md-5">
+            <div class="contact-card shadow-sm p-4 h-100">
+
+                <div class="icon">👨‍💻</div>
+                <h5>Our Team</h5>
+
+                <p class="text-muted">
+                    Built by a passionate group of developers focused on shift management systems
+                    for students and workers.
+                </p>
+
+                <small class="text-muted">
+                    Simplicity • Speed • Reliability
+                </small>
+
+            </div>
+        </div>
+
+        <!-- SOCIAL CARD -->
+        <div class="col-md-10">
+            <div class="contact-card shadow-sm p-4 text-center">
+
+                <div class="icon">🌐</div>
+                <h5>Follow Us</h5>
+
+                <div class="social-links mt-3 d-flex justify-content-center flex-wrap gap-3">
+
+                    <a href="https://facebook.com" target="_blank">📘 Facebook</a>
+                    <a href="https://youtube.com" target="_blank">▶️ YouTube</a>
+                    <a href="https://twitter.com" target="_blank">🐦 Twitter</a>
+                    <a href="https://github.com" target="_blank">💻 GitHub</a>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

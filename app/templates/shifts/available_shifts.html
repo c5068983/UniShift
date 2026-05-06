@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shifts/available_shifts.css') }}">
+
+<div class="container-fluid mt-4">
+
+    <div class="row">
+
+        <!-- ================= LEFT FILTER ================= -->
+        <div class="col-md-3">
+
+            <div class="p-3 bg-light rounded shadow-sm position-sticky" style="top: 20px;">
+
+                <h5 class="fw-bold text-primary">Filter Shifts</h5>
+
+                <form method="GET">
+
+                    <!-- City -->
+                    <div class="mb-3">
+                        <label class="form-label">City</label>
+                        <input type="text"
+                               name="city"
+                               class="form-control"
+                               placeholder="e.g. Sheffield"
+                               value="{{ request.args.get('city', '') }}">
+                    </div>
+
+                    <!-- Postcode -->
+                    <div class="mb-3">
+                        <label class="form-label">Postcode</label>
+                        <input type="text"
+                               name="post_code"
+                               class="form-control"
+                               placeholder="e.g. S1"
+                               value="{{ request.args.get('post_code', '') }}">
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="mb-3">
+                        <label class="form-label">Sort By</label>
+                        <select name="order_by" class="form-select">
+
+                            <option value="time_asc">Earliest First</option>
+                            <option value="time_desc">Latest First</option>
+                            <option value="rate_high">Highest Pay</option>
+                            <option value="rate_low">Lowest Pay</option>
+                            <option value="hours_long">Longest Hours</option>
+                            <option value="hours_short">Shortest Hours</option>
+
+                        </select>
+                    </div>
+
+                    <!-- Buttons -->
+                    <button class="btn btn-primary w-100 mb-2">Apply</button>
+
+                    <a href="{{ url_for('shifts.available_shifts') }}"
+                       class="btn btn-outline-secondary w-100">
+                        Reset
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- ================= RIGHT SHIFTS ================= -->
+        <div class="col-md-9">
+
+            <h2 class="fw-bold text-primary mb-3">Available Shifts</h2>
+
+            {% if shifts %}
+
+                <div class="row">
+
+                    {% for shift in shifts %}
+
+                    <div class="col-md-6 mb-4">
+
+                        <div class="card h-100 shadow-sm">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">{{ shift.title }}</h5>
+
+                                <span class="badge bg-info">{{ shift.city }}</span>
+                                <span class="badge bg-secondary">{{ shift.post_code }}</span>
+
+                                <p class="mt-2 mb-1">
+                                    <strong>Time:</strong><br>
+                                    {{ shift.start_datetime }} → {{ shift.end_datetime }}
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Rate:</strong> £{{ shift.hourly_rate }}/hr
+                                </p>
+
+                                <a href="{{ url_for('shifts.shift_detail', shift_id=shift.shiftId) }}"
+                                   class="btn btn-primary btn-sm w-100">
+                                    View Details
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center mt-5">
+                    <h5 class="text-muted">No available shifts found</h5>
+                    <p>Try adjusting filters or check back later.</p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

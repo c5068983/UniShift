@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shifts/add_shift.css') }}">
+
+<div class="container mt-4">
+
+    <div class="row">
+
+        <!-- ================= LEFT FORM ================= -->
+        <div class="col-md-8">
+
+            <div class="p-4 bg-light rounded shadow-sm">
+
+                <h2 class="fw-bold text-primary mb-4">Add New Shift</h2>
+
+                <form method="POST" action="{{ url_for('shifts.add_shift') }}">
+
+                    {{ form.hidden_tag() }}
+
+                    <!-- TITLE -->
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control", placeholder="Enter shift title") }}
+                        {% for error in form.title.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- COMPANY -->
+                    <div class="mb-3">
+                        {{ form.company_name.label(class="form-label") }}
+                        {{ form.company_name(class="form-control", placeholder="Enter company name") }}
+                    </div>
+
+                    <!-- CITY + POSTCODE ROW -->
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.city.label(class="form-label") }}
+                            {{ form.city(class="form-control", placeholder="City") }}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.post_code.label(class="form-label") }}
+                            {{ form.post_code(class="form-control", placeholder="Post code") }}
+                        </div>
+
+                    </div>
+
+                    <!-- TIME ROW -->
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.start_datetime.label(class="form-label") }}
+                            {{ form.start_datetime(class="form-control", type="datetime-local") }}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.end_datetime.label(class="form-label") }}
+                            {{ form.end_datetime(class="form-control", type="datetime-local") }}
+                        </div>
+
+                    </div>
+
+                    <!-- RATE -->
+                    <div class="mb-3">
+                        {{ form.hourly_rate.label(class="form-label") }}
+                        {{ form.hourly_rate(class="form-control", placeholder="Hourly rate") }}
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="mb-3">
+                        {{ form.job_description.label(class="form-label") }}
+                        {{ form.job_description(class="form-control", rows="4",
+                        placeholder="Describe the job responsibilities") }}
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <button type="submit" class="btn btn-primary w-100">
+                        Post Shift
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- ================= RIGHT INFO PANEL ================= -->
+        <div class="col-md-4">
+
+            <div class="p-4 bg-white rounded shadow-sm">
+
+                <h5 class="fw-bold text-success">Posting Guidelines</h5>
+
+                <ul class="text-muted small mt-3">
+                    <li>Shift must start at least 24 hours ahead</li>
+                    <li>Ensure correct city and postcode</li>
+                    <li>Provide clear job description</li>
+                    <li>Set fair hourly rate for better responses</li>
+                </ul>
+
+                <hr>
+
+                <h6 class="fw-bold">Tips</h6>
+                <p class="small text-muted">
+                    Well-written shifts attract more applicants and get accepted faster.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

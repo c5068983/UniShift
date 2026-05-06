@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/about.css') }}">
+
+<!-- ================= HERO ================= -->
+<div class="about-hero text-center py-5">
+
+    <h1 class="about-heading">
+        About <span class="text-primary">{{ site_name[:3] }}</span><span class="text-success">{{ site_name[3:] }}</span>
+    </h1>
+
+    <p class="about-description mt-3">
+        UniShift is a smart shift management system that helps users plan, track, and manage work schedules efficiently with ease and clarity.
+    </p>
+
+</div>
+
+<!-- ================= PROBLEM STATEMENT ================= -->
+<div class="container my-5 text-center">
+
+    <h2>Why UniShift?</h2>
+
+    <p class="mt-3 text-muted">
+        Many students and part-time workers struggle to find flexible jobs and manage shifts efficiently.
+        UniShift solves this by bringing everything into one simple platform.
+    </p>
+
+</div>
+
+<!-- ================= CORE PRINCIPLES ================= -->
+<div class="container my-5">
+
+    <h2 class="text-center mb-4">Our Core Principles</h2>
+
+    <div class="row g-4 text-center">
+
+        <div class="col-md-3">
+            <div class="card p-3 h-100 shadow-sm">
+                <h3>⚡ Simplicity</h3>
+                <p>Easy-to-use interface for managing shifts without complexity.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card p-3 h-100 shadow-sm">
+                <h3>🚀 Speed</h3>
+                <p>Fast shift applications and instant updates.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card p-3 h-100 shadow-sm">
+                <h3>🔍 Transparency</h3>
+                <p>Clear status tracking for all shift requests.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card p-3 h-100 shadow-sm">
+                <h3>🔄 Flexibility</h3>
+                <p>Users can manage and cancel shifts anytime.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= FEATURES ================= -->
+<div class="container my-5">
+
+    <h2 class="text-center mb-4">Key Features</h2>
+
+    <div class="row g-4 text-center">
+
+        <div class="col-md-4">
+            <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                <h4>⚙️ Shift Management</h4>
+                <p class="text-muted">Create, edit, and manage shifts in a simple and efficient way.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                <h4>🔔 Real-time Updates</h4>
+                <p class="text-muted">Instant notifications for shift approvals, cancellations, and changes.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                <h4>🔐 Secure System</h4>
+                <p class="text-muted">OTP-based authentication ensures secure access for all users.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                <h4>📊 Smart Tracking</h4>
+                <p class="text-muted">Track shift history, status, and performance easily.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-4 h-100 shadow-sm border-0 feature-card">
+                <h4>⏱ Flexible Scheduling</h4>
+                <p class="text-muted">Users can apply, cancel, or update shifts anytime.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= TEAM ================= -->
+<!-- ================= TEAM ================= -->
+<div class="container my-5 text-center">
+
+    <h2>Meet the Creators</h2>
+
+    <div class="row justify-content-center mt-4 g-4">
+
+        <!-- Backend -->
+        <div class="col-md-5">
+            <div class="card shadow-sm p-4 h-100 border-0">
+                <h4>Kola Nokesh Kumar</h4>
+                <p class="text-muted">Backend Developer & System Designer</p>
+
+                <p>
+                    Responsible for backend architecture, database design,
+                    authentication system, and full shift management logic
+                    using Flask and SQL.
+                </p>
+            </div>
+        </div>
+
+        <!-- Frontend -->
+        <div class="col-md-5">
+            <div class="card shadow-sm p-4 h-100 border-0">
+                <h4>Saikrishna Dontham</h4>
+                <p class="text-muted">Frontend Developer & UI Designer</p>
+
+                <p>
+                    Responsible for frontend design, UI structure, and user experience.
+                    Images and final UI assets will be added later.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= WHAT MAKES US SPECIAL ================= -->
+<div class="special-section text-center py-5">
+
+    <h2>What Makes UniShift Special?</h2>
+
+    <p class="mt-3">
+        UniShift combines modern UI design with strong backend logic including OTP authentication,
+        real-time shift updates, cancellation system, and structured role-based management.
+    </p>
+
+</div>
+
+{% endblock %}

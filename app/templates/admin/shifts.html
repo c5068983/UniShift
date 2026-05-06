@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- ================= HEADER ================= -->
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">📊 Shift Control Dashboard</h2>
+        <p class="text-muted">Overview and activity tracking of all shifts</p>
+    </div>
+
+    <!-- ================= STATS ================= -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <p class="text-muted mb-1">Open Shifts</p>
+                    <h2 class="fw-bold text-success">{{ open_shifts }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <p class="text-muted mb-1">Accepted Shifts</p>
+                    <h2 class="fw-bold text-primary">{{ accepted_shifts }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body text-center">
+                    <p class="text-muted mb-1">Completed Shifts</p>
+                    <h2 class="fw-bold text-secondary">{{ completed_shifts }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= ACTIVITY HEADER ================= -->
+    <div class="mb-3">
+        <h4 class="fw-bold mb-1">📜 Recent Shift Activity</h4>
+        <p class="text-muted">Latest user actions across shifts</p>
+    </div>
+
+    <!-- ================= ACTIVITY TIMELINE ================= -->
+
+    {% if history %}
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body">
+
+                <div class="position-relative">
+
+                    <!-- vertical line -->
+                    <div class="position-absolute top-0 bottom-0 start-0 border-start ms-3"></div>
+
+                    {% for h in history %}
+
+                        <div class="d-flex mb-4 position-relative">
+
+                            <!-- DOT -->
+                            <div class="flex-shrink-0">
+                                <div class="rounded-circle 
+                                    {% if h.action == 'Accepted' %}
+                                        bg-primary
+                                    {% elif h.action == 'Completed' %}
+                                        bg-success
+                                    {% else %}
+                                        bg-secondary
+                                    {% endif %}
+                                    "
+                                    style="width:12px;height:12px;margin-left:6px;margin-top:6px;">
+                                </div>
+                            </div>
+
+                            <!-- CONTENT -->
+                            <div class="ms-3 w-100">
+
+                                <!-- TOP ROW -->
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                    <div>
+                                        <h6 class="fw-bold mb-1">
+                                            {{ h.username }} <span class="text-muted">({{ h.email }})</span>
+                                        </h6>
+
+                                        <span class="badge rounded-pill 
+                                            {% if h.action == 'Accepted' %}
+                                                bg-primary
+                                            {% elif h.action == 'Completed' %}
+                                                bg-success
+                                            {% else %}
+                                                bg-secondary
+                                            {% endif %}
+                                        ">
+                                            {{ h.action }}
+                                        </span>
+                                    </div>
+
+                                    <small class="text-muted">
+                                        {{ h.updated_at }}
+                                    </small>
+
+                                </div>
+
+                                <!-- SHIFT INFO -->
+                                <div class="mt-2">
+                                    <p class="mb-1">
+                                        <strong>{{ h.title }}</strong>
+                                        <span class="text-muted">• {{ h.company_name }} • {{ h.city }}</span>
+                                    </p>
+
+                                    <small class="text-muted">
+                                        {% if h.action == 'Accepted' %}
+                                            Assigned to shift and scheduled for work.
+                                        {% elif h.action == 'Completed' %}
+                                            Successfully completed shift.
+                                        {% else %}
+                                            Shift status updated.
+                                        {% endif %}
+                                    </small>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="text-center mt-5">
+            <div class="text-muted">
+                <h5>No activity history found</h5>
+                <p>Shift actions will appear here once users start interacting.</p>
+            </div>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

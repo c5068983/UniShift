@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/register.css') }}">
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+  <div class="card shadow-lg p-4" style="width: 100%; max-width: 450px; border-radius: 12px;">
+
+    <h3 class="text-center mb-4">Create Account</h3>
+
+    <form method="POST" action="{{ url_for('auth.register') }}">
+      {{ form.hidden_tag() }}
+
+      <!-- USERNAME -->
+      <div class="mb-3">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control", placeholder="Enter your username") }}
+
+        {% for error in form.username.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- EMAIL -->
+      <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", placeholder="Enter your email") }}
+
+        {% for error in form.email.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control", placeholder="Enter your password") }}
+
+        {% for error in form.password.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- CONFIRM PASSWORD -->
+      <div class="mb-3">
+        {{ form.confirm_password.label(class="form-label") }}
+        {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+
+        {% for error in form.confirm_password.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="d-grid mt-3">
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+
+    </form>
+
+    <!-- LINKS -->
+    <div class="text-center mt-3">
+      <p>
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}">Login</a>
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-4">
+
+    <h1 class="fw-bold text-primary mb-4">Dashboard</h1>
+
+    <!-- ================= PENDING ================= -->
+    <h3 class="mt-4 mb-3">🟡 Pending Shifts</h3>
+
+    <div class="row g-3">
+
+        {% if requests %}
+
+            {% for req in requests %}
+            <div class="col-md-4">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">{{ req.shift_title }}</h5>
+
+                        <h6 class="text-muted mb-2">
+                            {{ req.company_name }}
+                        </h6>
+
+                        <p class="mb-2">
+                            📍 {{ req.shift_city }} <br>
+                            🕒 {{ req.start_datetime }} → {{ req.end_datetime }}
+                        </p>
+
+                        <a href="{{ url_for('shifts.shift_detail', shift_id=req.shiftId) }}"
+                           class="btn btn-sm btn-primary w-100 mb-2">
+                            View Details
+                        </a>
+
+                        <a href="{{ url_for('shifts.cancel_request',
+                            shift_id=req.shiftId,
+                            request_id=req.requestId) }}"
+                           class="btn btn-sm btn-outline-danger w-100">
+                            Cancel Request
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+
+            <div class="col-12">
+                <div class="alert alert-light border text-muted">
+                    No pending shifts available.
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ================= ACCEPTED ================= -->
+    <h3 class="mt-5 mb-3">🟢 Accepted Shifts</h3>
+
+    <div class="row g-3">
+
+        {% if Accepted %}
+
+            {% for req in Accepted %}
+            <div class="col-md-4">
+
+                <div class="card shadow-sm h-100 border-success">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">{{ req.shift_title }}</h5>
+
+                        <h6 class="text-muted mb-2">
+                            {{ req.company_name }}
+                        </h6>
+
+                        <p>
+                            📍 {{ req.shift_city }} <br>
+                            🕒 {{ req.start_datetime }} → {{ req.end_datetime }}
+                        </p>
+
+                        <a href="{{ url_for('shifts.shift_detail', shift_id=req.shiftId) }}"
+                           class="btn btn-sm btn-success w-100">
+                            View Shift
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+
+            <div class="col-12">
+                <div class="alert alert-light border text-muted">
+                    No Accepted shifts yet.
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- ================= HISTORY ================= -->
+    <h3 class="mt-5 mb-3">🔵 History</h3>
+
+    <div class="row g-3">
+
+        {% if withdrawn %}
+
+            {% for req in withdrawn %}
+            <div class="col-md-4">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+    
+                    <h5 class="card-title mb-0">
+                        {{ req.shift_title }}
+                    </h5>
+
+                    <!-- STATUS BADGE -->
+                    {% if req.status == 'Withdrawn' %}
+                        <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                            Withdrawn
+                        </span>
+                    {% elif req.status == 'Rejected' %}
+                        <span class="badge bg-danger fs-6 px-3 py-2">
+                            Rejected
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                        <h6 class="text-muted mb-2">
+                            {{ req.company_name }}
+                        </h6>
+
+                        <p>
+                            📍 {{ req.shift_city }} <br>
+                            🕒 {{ req.start_datetime }} → {{ req.end_datetime }}
+                        </p>
+
+                        <a href="{{ url_for('shifts.shift_detail', shift_id=req.shiftId) }}"
+                           class="btn btn-sm btn-outline-primary w-100">
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+
+            <div class="col-12">
+                <div class="alert alert-light border text-muted">
+                    No history available.
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

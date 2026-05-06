@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main/edit_profile.css') }}">
+
+<div class="container py-5">
+
+   <div class="card shadow-sm mx-auto p-4" style="max-width: 600px; border-radius: 14px;">
+
+      <h2 class="mb-4 text-center">Edit Profile</h2>
+
+      <form method="POST" enctype="multipart/form-data">
+         {{ form.hidden_tag() }}
+
+         <!-- Username -->
+         <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control") }}
+         </div>
+
+         <!-- EMAIL (LOCKED) -->
+         <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            <input type="email"
+                   class="form-control bg-light"
+                   value="{{ user.email }}"
+                   disabled>
+            <small class="text-muted">Email cannot be changed</small>
+         </div>
+
+         <!-- Mobile -->
+         <div class="mb-3">
+            {{ form.mobile_number.label(class="form-label") }}
+            {{ form.mobile_number(class="form-control") }}
+         </div>
+
+         <!-- Post Code -->
+         <div class="mb-3">
+            {{ form.post_code.label(class="form-label") }}
+            {{ form.post_code(class="form-control") }}
+         </div>
+
+         <!-- Profile Picture -->
+         <div class="mb-3">
+            {{ form.profile_pic.label(class="form-label") }}
+            {{ form.profile_pic(class="form-control") }}
+         </div>
+
+         <!-- SUBMIT -->
+         <div class="d-grid mt-4">
+            {{ form.submit(class="btn btn-primary") }}
+         </div>
+
+      </form>
+
+   </div>
+
+</div>
+
+{% endblock %}

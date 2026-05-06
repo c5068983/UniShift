@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/post_a_shift.css') }}">
+
+<div class="container mt-4">
+
+    <!-- ================= HEADER ================= -->
+    <div class="p-4 mb-5 bg-light rounded shadow-sm text-center">
+
+        <h3 class="fw-bold text-primary mb-2">
+            Post & Manage Your Shifts
+        </h3>
+
+        <p class="text-muted mb-3">
+            Create shifts in seconds, manage applications, and find the right people to cover your work easily.
+        </p>
+
+        <a href="{{ url_for('shifts.add_shift') }}" class="btn btn-primary px-4">
+            + Post a New Shift
+        </a>
+
+    </div>
+
+    <!-- ================= SHIFTS ================= -->
+    <div class="row g-4">
+
+        {% if shifts %}
+
+            {% for shift in shifts %}
+            <div class="col-md-4">
+
+                <div class="card shadow-sm h-100 border-0">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title fw-bold">{{ shift.title }}</h5>
+
+                        <h6 class="text-muted mb-3">
+                            {{ shift.company_name }}
+                        </h6>
+
+                        <p class="small mb-1">
+                            📍 <strong>City:</strong> {{ shift.city }}
+                        </p>
+
+                        <p class="small mb-1">
+                            🕒 <strong>Start:</strong> {{ shift.start_datetime }}
+                        </p>
+
+                        <p class="small">
+                            🕒 <strong>End:</strong> {{ shift.end_datetime }}
+                        </p>
+
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div class="card-footer bg-white border-0 d-flex gap-2">
+
+                        <a href="{{ url_for('shifts.shift_detail', shift_id=shift.shiftId) }}"
+                           class="btn btn-sm btn-primary w-100">
+                            View
+                        </a>
+
+                        {% if shift.status != 'Completed' %}
+
+                            {% if shift.status != 'Accepted' %}
+                                            
+                                <a href="{{ url_for('shifts.edit_shift', shift_id=shift.shiftId) }}"
+                                class="btn btn-sm btn-outline-secondary w-100">
+                                    Edit
+                                </a>
+
+                            {% endif %}
+
+                            <a href="{{ url_for('shifts.cancel_shift', shift_id=shift.shiftId) }}"
+                            class="btn btn-sm btn-outline-danger w-100">
+                                Delete
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+
+            <div class="col-12 text-center">
+                <div class="alert alert-light border">
+                    No shifts posted yet. Start by creating your first shift.
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4 d-flex justify-content-center">
+
+    <div class="card shadow-sm border-0 w-100" style="max-width: 850px; border-radius: 14px;">
+
+        <div class="card-body">
+
+            <!-- HEADER -->
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <h3 class="mb-1">{{ shift.title }}</h3>
+                    <p class="text-muted mb-0">
+                        {{ shift.company_name }} • {{ shift.city }}
+                    </p>
+                </div>
+
+                {% if shift.userId == g.user['userId'] and shift.status == 'Open' %}
+                    <a href="{{ url_for('shifts.edit_shift', shift_id=shift.shiftId) }}"
+                       class="btn btn-sm btn-outline-secondary">
+                        Edit
+                    </a>
+                {% endif %}
+
+            </div>
+
+            <hr>
+
+            <!-- DESCRIPTION -->
+            <p class="mb-4 text-muted">
+                {{ shift.job_description }}
+            </p>
+
+            <!-- INFO GRID (FIXED) -->
+            <div class="row g-3 mb-3">
+
+                <div class="col-md-4">
+                    <div class="p-2">
+                        <strong>📍 Location</strong><br>
+                        <span class="text-muted">{{ shift.post_code }}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-2">
+                        <strong>⏰ Time</strong><br>
+
+                        <div class="mt-2">
+                            <div>{{ shift.start_datetime }}</div>
+
+                            <div class="my-1 text-primary fw-bold">⬇</div>
+
+                            <div>{{ shift.end_datetime }}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-2">
+                        <strong>💰 Rate</strong><br>
+                        <span class="text-muted">£{{ shift.hourly_rate }}/hr</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- STATUS -->
+            <div class="mb-3">
+
+                {% if shift.status == 'Open' %}
+                    <span class="badge bg-success fs-6 px-3 py-2">Open</span>
+
+                {% elif shift.status == 'Accepted' %}
+                    <span class="badge bg-primary fs-6 px-3 py-2">Accepted</span>
+
+                {% elif shift.status == 'Completed' %}
+                    <span class="badge bg-secondary fs-6 px-3 py-2">Completed</span>
+
+                {% else %}
+                    <span class="badge bg-danger fs-6 px-3 py-2">Cancelled</span>
+                {% endif %}
+
+            </div>
+            <hr>
+
+            <!-- ACTIONS -->
+            <div class="d-flex flex-wrap gap-2">
+
+                {% if shift.userId == g.user['userId'] %}
+
+                    {% if shift.status == 'Open' %}
+                        <a href="{{ url_for('shifts.show_requests', shift_id=shift.shiftId) }}"
+                        class="btn btn-outline-primary">
+                            View Requests
+                        </a>
+                    {% endif %}
+
+                    {% if shift.status == 'Open' or shift.status == 'Accepted' %}
+                        <a href="{{ url_for('shifts.cancel_shift', shift_id=shift.shiftId) }}"
+                        class="btn btn-danger">
+                            Cancel Shift
+                        </a>
+                    {% endif %}
+
+                {% else %}
+
+                    {% if shift.status == 'Open' %}
+
+                        {% if request and request.status == 'Pending' %}
+                            <span class="text-warning fw-semibold">
+                                Your application is pending
+                            </span>
+
+                            <a href="{{ url_for('shifts.withdraw',
+                                                shift_id=shift.shiftId,
+                                                request_id=request.requestId) }}"
+                               class="btn btn-outline-danger">
+                                Withdraw
+                            </a>
+                        
+                        {% elif request and request.status == 'Rejected' %}
+                            <span class="text-danger fw-semibold">
+                                Your application was rejected
+                            </span>
+
+                        {% elif request and request.status == 'Withdrawn' %}
+                            <span class="text-danger fw-semibold">
+                                Your application was withdrawn
+                            </span>
+
+                        
+                        {% else %}
+                            <div class="d-flex align-items-center gap-2">
+                                <a href="{{ url_for('shifts.apply', shift_id=shift.shiftId) }}"
+                                class="btn btn-primary">
+                                    Apply Now
+                                </a>
+
+                                {% if session.get('role') == 'Admin' %}
+                                    <a href="{{ url_for('shifts.cancel_shift', shift_id=shift.shiftId) }}"
+                                    class="btn btn-danger">
+                                        Cancel Shift
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                     {% elif request and request.status == 'Accepted' %}
+                            <span class="text-success fw-semibold">
+                                You are Accepted for this shift
+                            </span>
+
+                            <a href="{{ url_for('shifts.withdraw',
+                                                shift_id=shift.shiftId,
+                                                request_id=request.requestId) }}"
+                               class="btn btn-outline-danger mx-2">
+                                Withdraw
+                            </a>
+                    
+
+                    {% else %}
+                        <button class="btn btn-secondary" disabled>
+                            Not Available
+                        </button>
+                    {% endif %}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
