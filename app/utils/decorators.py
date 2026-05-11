@@ -29,8 +29,6 @@ def role_required(role):
         return decorated_function
     return wrapper
 
-from functools import wraps
-from flask import session, redirect, url_for
 
 def active_user_required(f):
     @wraps(f)

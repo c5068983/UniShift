@@ -159,3 +159,16 @@ def get_accepted_shift_requests(shift_id):
 
     conn.close()
     return request
+
+def cancel_all_request_by_shift_id(shift_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE shift_requests 
+        SET status = 'Cancelled', updated_at = CURRENT_TIMESTAMP 
+        WHERE shiftId = ? AND status IN ('Pending', 'Accepted')
+    """, (shift_id,))
+
+    conn.commit()
+    conn.close()

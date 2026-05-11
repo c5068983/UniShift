@@ -24,6 +24,9 @@ def login():
             session['role'] = user['role']
             session['status'] = "Active" if user['is_active'] else "Inactive"
             return redirect(url_for('main.index'))
+        elif not user:
+            flash(category="danger", message="User Does not Exist")
+            return render_template('auth/login.html', form=form, title="Login")
         else:
             flash(category="danger", message="Login Failed: Invalid email or password")
             return render_template('auth/login.html', form=form, title="Login")

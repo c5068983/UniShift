@@ -86,11 +86,6 @@ def users_dashboard():
         new_users_month=new_users_month
     )
 
-@admin_bp.route('/dashboard')
-@admin_required
-def dashboard():
-    return render_template('admin/dashboard.html')
-
 @admin_bp.route('/block-user/<int:user_id>')
 @admin_required
 def block_user(user_id):

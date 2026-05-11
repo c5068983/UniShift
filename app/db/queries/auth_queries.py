@@ -1,5 +1,3 @@
-from dbm import sqlite3
-
 from app.db.connection import get_db_connection
 
 def create_user(username, email, password, role):

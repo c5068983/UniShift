@@ -1,7 +1,7 @@
 from app.db.queries.history_queries import get_shift_history, log_shift_action,update_shift_history,get_accepted_shift_history
 from app.db.queries.user_queries import get_user_by_id,change_rating_by_id,change_active_status_by_id
 from app.shifts import shifts_bp
-from app.db.queries.request_queries import create_shift_request, get_shift_request_by_id,update_shift_request_status_by_id,get_shift_requests,reject_other_requests,get_shift_request_by_other_id,get_accepted_shift_requests
+from app.db.queries.request_queries import create_shift_request, get_shift_request_by_id,update_shift_request_status_by_id,get_shift_requests,reject_other_requests,get_shift_request_by_other_id,get_accepted_shift_requests,cancel_all_request_by_shift_id
 from flask import abort, render_template, request, session, g, flash, redirect, url_for
 from datetime import datetime, timedelta
 from app.db.queries.shift_queries import get_shift_by_id, update_shift_by_id, update_shift_status,create_shift,get_shift_by_id_with_poster,get_filtered_shifts
@@ -90,6 +90,7 @@ def withdraw(shift_id, request_id):
             shift["poster_email"],
             shift_withdrawn_email_body(shift)
         )
+    flash("Your application has been withdrawn.", "info")
     shift = update_shift_status(shift_id, "Open")
     request = update_shift_request_status_by_id(request_id, "Withdrawn")
     return render_template("shifts/shift_detail.html", shift=shift, request=request)
@@ -164,12 +165,15 @@ def cancel_shift(shift_id):
             if rating < 50:
                 change_active_status_by_id(shift['userId'], False)
         update_shift_history(history['historyId'], "Cancelled")
+        update_request_status(request['requestId'],'Cancelled')
         send_email(
             "Shift Cancelled ⚠️",
             history["user_email"],
             shift_cancelled_email_body(history, shift)
         )
+    cancel_all_request_by_shift_id(shift_id)
     update_shift_status(shift_id, "Cancelled")
+    flash("Shift cancelled successfully by " + g.user['username'] + ".", "info")
     if session['role'] == "Admin":
         return redirect(url_for('shifts.available_shifts'))
     return redirect(url_for('main.poster_dashboard'))
