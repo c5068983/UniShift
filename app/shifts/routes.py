@@ -163,9 +163,10 @@ def cancel_shift(shift_id):
         if shift['role'] != "Admin":
             rating = change_rating_by_id(shift['userId'], -10)
             if rating < 50:
+                if rating < 0:
+                    rating = 0
                 change_active_status_by_id(shift['userId'], False)
         update_shift_history(history['historyId'], "Cancelled")
-        update_request_status(request['requestId'],'Cancelled')
         send_email(
             "Shift Cancelled ⚠️",
             history["user_email"],

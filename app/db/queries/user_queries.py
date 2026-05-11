@@ -42,11 +42,23 @@ def get_all_users():
 def change_rating_by_id(user_id, points):
     conn = get_db_connection()
     cursor = conn.cursor()
+    
     cursor.execute("""
-        UPDATE users 
-        SET rating_points = rating_points + ? 
+        SELECT rating_points
+        FROM users
         WHERE userId = ?
-    """, (points, user_id))
+    """, (user_id,))
+
+    result = cursor.fetchone()
+
+    current_points = result[0] if result else 0
+    
+    new_points = max(current_points + points, 0)
+    cursor.execute("""
+        UPDATE users
+        SET rating_points = ?
+        WHERE userId = ?
+    """, (new_points, user_id))
     conn.commit()
     conn.close()
     return get_user_by_id(user_id)["rating_points"]

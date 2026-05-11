@@ -63,7 +63,7 @@ def auto_complete_expired_accepted_shifts():
             # ------------------------
             cursor.execute(f"""
                 UPDATE users
-                SET rating_points = rating_points + 5
+                SET rating_points = MIN(rating_points + 5, 100)
                 WHERE userId IN (
                     SELECT requesterId
                     FROM shift_requests
