@@ -62,9 +62,8 @@
                             View
                         </a>
 
-                        {% if shift.status != 'Completed' %}
-
-                            {% if shift.status != 'Accepted' %}
+                        {% if not (shift.status == 'Completed' or shift.status == 'Cancelled' or shift.status == 'Expired') %}
+                            {% if shift.status != 'Accepted'%}
                                             
                                 <a href="{{ url_for('shifts.edit_shift', shift_id=shift.shiftId) }}"
                                 class="btn btn-sm btn-outline-secondary w-100">

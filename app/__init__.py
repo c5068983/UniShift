@@ -20,20 +20,6 @@ def create_app():
         return dict(site_name=app.config['SITE_NAME'])
 
     # -------------------
-    # MAIL CONFIG
-    # -------------------
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USE_SSL'] = False
-
-    app.config['MAIL_USERNAME'] = 'unishift.efssd@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'kzre yhad zwsb rlqi'
-    app.config['MAIL_DEFAULT_SENDER'] = 'unishift.efssd@gmail.com'
-
-    mail.init_app(app)
-
-    # -------------------
     # BLUEPRINTS
     # -------------------
     from app.auth import auth_bp

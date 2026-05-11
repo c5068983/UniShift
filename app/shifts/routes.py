@@ -217,9 +217,6 @@ def update_request_status(shift_id, request_id=None, new_status=None):
         )        
     update_shift_request_status_by_id(request_id, new_status)
     
-    if request["requesterId"] == g.user['userId'] or g.user['role'] == "Admin":
-        return redirect(url_for('main.user_dashboard'))
-    
     return redirect(url_for('shifts.show_requests', shift_id=shift_id))
 
 @shifts_bp.route('/edit/<int:shift_id>', methods=['GET', 'POST'])

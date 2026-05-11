@@ -66,8 +66,9 @@ def logout():
 @auth_bp.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
 
-    if not session.get("reset_verified"):
-        return redirect(url_for("auth.login"))
+    if not session.get('user_id'):
+        if not session.get("reset_verified"):
+            return redirect(url_for("auth.login"))
 
     form = ResetPasswordForm()
 
@@ -83,6 +84,11 @@ def reset_password():
         session.pop('reset_verified', None)
 
         flash("Password reset successful", "success")
+        
+        if session.get('user_id'):
+            return redirect(url_for('main.profile'))
+        
+        
         return redirect(url_for('auth.login'))
 
     return render_template('auth/reset_password.html', form=form)

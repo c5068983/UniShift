@@ -1,34 +1,84 @@
-from flask_mail import Message
-from app import mail
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import os
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+# -------------------------------
+# Generic email sender (SendGrid)
+# -------------------------------
 def send_email(subject, recipient, body):
-    msg = Message(
+
+    message = Mail(
+        from_email="unishift.efssd@gmail.com",  # must be verified in SendGrid
+        to_emails=recipient,
         subject=subject,
-        recipients=[recipient],
-        body=body
+        plain_text_content=body
     )
-    mail.send(msg)
-    
+
+    try:
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+        response = sg.send(message)
+        print("Email sent successfully:", response.status_code)
+
+    except Exception as e:
+        print("SendGrid error:", e)
+
+
+# -------------------------------
+# OTP EMAIL
+# -------------------------------
+def send_otp_email(email, otp):
+
+    message = Mail(
+        from_email="unishift.efssd@gmail.com",
+        to_emails=email,
+        subject="Your UniShift OTP Code",
+        plain_text_content=f"""
+Your OTP code is: {otp}
+
+This code will expire in 5 minutes.
+
+If you did not request this, ignore this email.
+"""
+    )
+
+    try:
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+        response = sg.send(message)
+        print("OTP email sent:", response.status_code)
+
+    except Exception as e:
+        print("SendGrid error:", e)
+
+
+# -------------------------------
+# SHIFT EMAIL TEMPLATES
+# -------------------------------
 def shift_withdrawn_email_body(shift):
     return f"""
-    Hi {shift['poster_name']},
+Hi {shift['poster_name']},
 
-    Your shift has been withdrawn.
+Your shift has been withdrawn.
 
-    Shift: {shift['title']}
-    Company: {shift['company_name']}
-    """
-    
+Shift: {shift['title']}
+Company: {shift['company_name']}
+"""
+
+
 def shift_cancelled_email_body(history, shift):
     return f"""
-    Hi {history['user_name']},
+Hi {history['user_name']},
 
-    Your shift has been cancelled by the Poster.
+Your shift has been cancelled by the Poster.
 
-    Shift: {shift['title']}
-    Company: {shift['company_name']}
-    """
-    
+Shift: {shift['title']}
+Company: {shift['company_name']}
+"""
+
+
 def shift_accepted_email_body(user, shift, poster):
     return f"""
 Hi {user['username']},
@@ -53,25 +103,3 @@ Please make sure to show up on time and contact the poster if you have any quest
 
 — UniShift Team
 """
-
-
-from flask_mail import Message
-from flask import current_app
-from app import mail
-
-def send_otp_email(email, otp):
-
-    msg = Message(
-        subject="Your UniShift OTP Code",
-        recipients=[email]
-    )
-
-    msg.body = f"""
-Your OTP code is: {otp}
-
-This code will expire in 5 minutes.
-
-If you did not request this, ignore this email.
-"""
-
-    mail.send(msg)
